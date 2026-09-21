@@ -1,86 +1,12 @@
-import { Sidebar } from "@/components/sidebar";
+import { redirect } from "next/navigation";
+import { PageShell, StatCard } from "@/components/page-shell";
+import { getProjects } from "@/lib/data/projects";
+import { getDashboard } from "@/lib/data/dashboard";
 
-const metrics = [
-  ["AI Visibility", "68%", "+8.2%"],
-  ["Citation Rate", "42%", "+5.4%"],
-  ["GEO Score", "74", "+6"],
-  ["Avg. Position", "3.2", "+0.8"],
-];
-
-const providers = [
-  ["ChatGPT", 78],
-  ["Gemini", 65],
-  ["Perplexity", 59],
-  ["Claude", 47],
-  ["DeepSeek", 61],
-  ["Google AI", 55],
-];
-
-export default function Dashboard() {
-  return (
-    <main className="flex min-h-screen bg-background">
-      <Sidebar />
-      <section className="flex-1">
-        <header className="flex h-16 items-center justify-between border-b border-border px-8">
-          <div>
-            <div className="text-xs text-muted">Project</div>
-            <div className="text-sm font-medium">HUACPOWER</div>
-          </div>
-          <button className="rounded-md border border-border px-3 py-2 text-sm">Last 30 days</button>
-        </header>
-
-        <div className="p-8">
-          <div className="mb-7">
-            <h1 className="text-2xl font-semibold">Overview</h1>
-            <p className="mt-1 text-sm text-muted">Monitor how AI engines discover, mention and cite your brand.</p>
-          </div>
-
-          <div className="grid grid-cols-4 gap-4">
-            {metrics.map(([name, value, delta]) => (
-              <div key={name} className="rounded-lg border border-border bg-panel p-5">
-                <div className="text-sm text-muted">{name}</div>
-                <div className="mt-3 flex items-end justify-between">
-                  <div className="text-3xl font-semibold">{value}</div>
-                  <div className="text-xs text-accent">{delta}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 grid grid-cols-[1.6fr_1fr] gap-6">
-            <div className="rounded-lg border border-border bg-panel p-6">
-              <div className="mb-6">
-                <h2 className="font-medium">AI visibility by engine</h2>
-                <p className="mt-1 text-xs text-muted">Brand mention rate across monitored prompts</p>
-              </div>
-              <div className="space-y-5">
-                {providers.map(([name, score]) => (
-                  <div key={name}>
-                    <div className="mb-2 flex justify-between text-sm">
-                      <span>{name}</span><span className="text-muted">{score}%</span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-[#242a34]">
-                      <div className="h-full rounded-full bg-accent" style={{ width: `${score}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-lg border border-border bg-panel p-6">
-              <h2 className="font-medium">Top citations</h2>
-              <p className="mt-1 text-xs text-muted">Domains most frequently cited by AI</p>
-              <div className="mt-5 divide-y divide-border text-sm">
-                {["omicronenergy.com", "megger.com", "huacpower.com", "dv-power.com", "linkedin.com"].map((domain, i) => (
-                  <div key={domain} className="flex justify-between py-3">
-                    <span>{domain}</span><span className="text-muted">{24 - i * 3}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+export default async function Dashboard() {
+ const projects=await getProjects(); if(!projects.length) redirect("/onboarding"); const project=projects[0]; const data=await getDashboard(project.id);
+ return <PageShell title="Overview" description="Live AI visibility data from completed monitoring runs." projectName={project.brand_name}>
+  <div className="grid grid-cols-4 gap-4"><StatCard label="AI Visibility" value={`${data.mentionRate}%`}/><StatCard label="Citation Rate" value={`${data.citationRate}%`}/><StatCard label="GEO Score" value={String(data.score)}/><StatCard label="Avg. Position" value={data.avgPosition}/></div>
+  <div className="mt-6 rounded-lg border border-border bg-panel p-6"><h2 className="font-medium">AI visibility by engine</h2><p className="mt-1 text-xs text-muted">{data.totalRuns} completed runs</p><div className="mt-6 space-y-5">{data.byProvider.map(p=><div key={p.provider}><div className="mb-2 flex justify-between text-sm"><span className="capitalize">{p.provider}</span><span className="text-muted">{p.visibility}% · {p.citations} citations</span></div><div className="h-2 overflow-hidden rounded-full bg-[#242a34]"><div className="h-full rounded-full bg-accent" style={{width:`${p.visibility}%`}}/></div></div>)}</div></div>
+ </PageShell>;
 }
