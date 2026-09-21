@@ -1,14 +1,15 @@
+import Link from "next/link";
 import { Activity, BarChart3, FileSearch, Globe2, Library, Settings, ShieldCheck, Users } from "lucide-react";
 
 const items = [
-  ["Overview", BarChart3],
-  ["AI Visibility", Activity],
-  ["Prompts", Library],
-  ["Citations", Globe2],
-  ["Competitors", Users],
-  ["GEO Audit", FileSearch],
-  ["Reports", ShieldCheck],
-  ["Settings", Settings],
+  ["Overview", "/", BarChart3],
+  ["AI Visibility", "/visibility", Activity],
+  ["Prompts", "/prompts", Library],
+  ["Citations", "/citations", Globe2],
+  ["Competitors", "/competitors", Users],
+  ["GEO Audit", "/audit", FileSearch],
+  ["Reports", "/reports", ShieldCheck],
+  ["Settings", "/settings", Settings],
 ] as const;
 
 export function Sidebar() {
@@ -16,17 +17,13 @@ export function Sidebar() {
     <aside className="w-64 min-h-screen border-r border-border bg-[#11141a] p-4">
       <div className="mb-8 flex items-center gap-3 px-2">
         <div className="flex h-8 w-8 items-center justify-center rounded-md bg-accent font-bold text-black">V</div>
-        <div>
-          <div className="font-semibold tracking-wide">VALTARIQ</div>
-          <div className="text-xs text-muted">GEO Intelligence</div>
-        </div>
+        <div><div className="font-semibold tracking-wide">VALTARIQ</div><div className="text-xs text-muted">GEO Intelligence</div></div>
       </div>
       <nav className="space-y-1">
-        {items.map(([label, Icon], index) => (
-          <div key={label} className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${index === 0 ? "bg-[#1c212b] text-white" : "text-muted hover:bg-[#181c24] hover:text-white"}`}>
-            <Icon size={16} />
-            {label}
-          </div>
+        {items.map(([label, href, Icon]) => (
+          <Link key={label} href={href} className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-muted hover:bg-[#181c24] hover:text-white">
+            <Icon size={16} />{label}
+          </Link>
         ))}
       </nav>
     </aside>
