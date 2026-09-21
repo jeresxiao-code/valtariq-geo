@@ -1,0 +1,3 @@
+import { PageShell } from "@/components/page-shell";
+const reports=["Executive AI Visibility Report","GEO Technical Audit","Competitor Intelligence","Citation Gap Analysis"];
+export default function ReportsPage(){return <PageShell title="Reports" description="Generate decision-ready GEO and AI visibility reports."><div className="grid grid-cols-2 gap-4">{reports.map(r=><div key={r} className="rounded-lg border border-border bg-panel p-6"><div className="font-medium">{r}</div><p className="mt-2 text-sm text-muted">HUACPOWER · Last 30 days</p><button className="mt-6 rounded-md border border-border px-3 py-2 text-sm">Generate report</button></div>)}</div></PageShell>}
