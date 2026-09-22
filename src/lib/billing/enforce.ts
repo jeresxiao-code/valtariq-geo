@@ -1,0 +1,1 @@
+import{getUsage}from"./usage";export async function requireRunCapacity(units=1){const u=await getUsage();if(u.remaining<units)throw new Error("Monthly AI run limit reached. Upgrade the workspace plan or wait for the next billing period.");return u;}
