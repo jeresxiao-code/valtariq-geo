@@ -1,1 +1,1 @@
-export function detectCompetitor(text:string,name:string){const hay=text.toLocaleLowerCase();const needle=name.toLocaleLowerCase();const index=hay.indexOf(needle);return {mentioned:index>=0,position:index>=0?Math.max(1,Math.ceil(index/500)+1):null};}\n
+export function detectCompetitor(text:string,name:string){const hay=text.toLocaleLowerCase(),needle=name.toLocaleLowerCase(),index=hay.indexOf(needle);return {mentioned:index>=0,position:index>=0?Math.max(1,Math.ceil(index/500)+1):null};}
