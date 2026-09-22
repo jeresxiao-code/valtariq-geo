@@ -1,0 +1,2 @@
+import Link from "next/link";
+export function ProjectSwitcher({projects,currentId}:{projects:any[];currentId:string}){return <div className="flex items-center gap-2"><span className="text-xs text-muted">Project</span><div className="flex gap-1">{projects.map(p=><Link key={p.id} href={"/?project="+p.id} className={"rounded-md px-3 py-1.5 text-sm "+(p.id===currentId?"bg-panel text-white":"text-muted hover:bg-panel")}>{p.brand_name}</Link>)}</div><Link href="/projects" className="ml-2 text-xs text-accent">Manage</Link></div>;}
