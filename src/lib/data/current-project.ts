@@ -1,3 +1,2 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-export async function requireCurrentProject(){const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");const {data:project}=await supabase.from("projects").select("*").order("created_at",{ascending:true}).limit(1).maybeSingle();if(!project)redirect("/onboarding");return project;}
+import { redirect } from "next/navigation";import { createClient } from "@/lib/supabase/server";
+export async function requireCurrentProject(projectId?:string){const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");let q=supabase.from("projects").select("*");if(projectId)q=q.eq("id",projectId);const {data:project}=await q.order("created_at",{ascending:true}).limit(1).maybeSingle();if(!project)redirect("/onboarding");return project;}
