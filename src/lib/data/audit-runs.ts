@@ -1,0 +1,1 @@
+import{createClient}from"@/lib/supabase/server";export async function getAuditRuns(projectId:string){const s=await createClient();const{data,error}=await s.from("audit_runs").select("*").eq("project_id",projectId).order("created_at",{ascending:false});if(error)throw error;return data??[];}
