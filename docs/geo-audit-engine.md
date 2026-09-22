@@ -1,0 +1,3 @@
+# GEO Website Audit Engine
+
+V1 fetches the project origin, robots.txt and optional llms.txt, then performs deterministic checks for structured data, page titles, H1, meta description, crawlability, entity signals and answer-oriented content. llms.txt is treated as optional and is not represented as a ranking factor. Audit findings are stored as evidence-linked issues for later recommendation and reporting workflows.
