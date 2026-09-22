@@ -1,0 +1,1 @@
+create table if not exists app_admins(user_id uuid primary key references auth.users(id) on delete cascade,role text not null default 'admin' check(role in('admin','support')),created_at timestamptz not null default now());alter table app_admins enable row level security;create policy "admins read own role" on app_admins for select using(user_id=auth.uid());
