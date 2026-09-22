@@ -1,0 +1,1 @@
+create table if not exists checker_leads(id uuid primary key default gen_random_uuid(),email text not null,domain text not null,brand_name text,score integer,findings jsonb not null default '[]'::jsonb,source text not null default 'free-checker',created_at timestamptz not null default now());alter table checker_leads enable row level security;
