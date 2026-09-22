@@ -1,0 +1,1 @@
+export const PLANS={free:{label:"Free",monthlyRuns:25,projects:1,reportShares:1},pro:{label:"Pro",monthlyRuns:500,projects:10,reportShares:50},agency:{label:"Agency",monthlyRuns:5000,projects:100,reportShares:500}} as const;export type PlanId=keyof typeof PLANS;
